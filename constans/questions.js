@@ -6,7 +6,7 @@ let result = [];
 // __________________________________________________________________
 try {
   const fileExcel = xlsx.readFile(
-    path.join(__dirname, "./all_developer_salesforce_questions.xlsx")
+    path.join(__dirname, "./all_admin_salesforce_questions.xlsx")
   );
   // const workbookEn = xlsx.readFile("./constans/EN_data_with_answers.xlsx");
 
@@ -19,28 +19,35 @@ try {
   let longest_wrong_ans = { length: 0, value: null };
 
   data.forEach((d, i) => {
+    const options = d.Options.split(",").map((e) => ({ ar: e.trim(), en: e.trim() }));
+    const seenOptions = new Set();
+
+    const wrongAnswers = options.filter((e) => {
+      const isDuplicate = seenOptions.has(e.ar) || seenOptions.has(e.en);
+      seenOptions.add(e.ar);
+      seenOptions.add(e.en);
+      return !isDuplicate && e.en !== d["Correct Answer"] && e.ar !== d["Correct Answer"];
+    });
+
     result[i] = {
       value: { ar: d.Question, en: d.Question },
-      correct_answer: {
-        ar: d["Correct Answer"],
-        en: d["Correct Answer"],
-      },
-      wrong_answers: d.Options.split(`,`)
-        .map((e) => ({ ar: e.trim(), en: e.trim() }))
-        .filter((e) => e?.en !== d["Correct Answer"] && e?.ar !== d["Correct Answer"]),
+      correct_answer: { ar: d["Correct Answer"], en: d["Correct Answer"] },
+      wrong_answers: wrongAnswers,
     };
-    if (d.Options.split(`,`).length > longest_wrong_ans?.length) {
-      longest_wrong_ans.length = d.Options.split(`,`).length;
+
+    if (options.length > longest_wrong_ans.length) {
+      longest_wrong_ans.length = options.length;
       longest_wrong_ans.value = result[i];
     }
-    if (d.Options.split(`,`).length < shortest_wrong_ans?.length) {
-      shortest_wrong_ans.length = d.Options.split(`,`).length;
+
+    if (options.length < shortest_wrong_ans.length) {
+      shortest_wrong_ans.length = options.length;
       shortest_wrong_ans.value = result[i];
     }
   });
-
   // console.log({
-  //   result,
+  //   result_242: result.map((r) => r.wrong_answers.map(e=>e.en))[242],
+  //   result_243: result.map((r) => r.wrong_answers.map(e=>e.en))[243],
   // });
   module.exports = result;
 } catch (e) {
