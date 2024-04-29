@@ -25,13 +25,13 @@ app.get("/test-connection", (_, res) => {
 
 app.use("/api", mainApiRoute);
 app.use(`/uploads`, express.static(path.join(__dirname, "uploads")));
-// app.get(`/uploads`, (req, res) => {
-//   res.sendFile(path.join(__dirname, "front-build", "index.html"));
-// });
-// app.use(express.static(path.join(__dirname, "front-build")));
-// app.get(`*`, (req, res) => {
-//   res.sendFile(path.join(__dirname, "front-build", "index.html"));
-// });
+app.get(`/uploads`, (req, res) => {
+  res.sendFile(path.join(__dirname, "front-build", "index.html"));
+});
+app.use(express.static(path.join(__dirname, "front-build")));
+app.get(`*`, (req, res) => {
+  res.sendFile(path.join(__dirname, "front-build", "index.html"));
+});
 
 // });
 
