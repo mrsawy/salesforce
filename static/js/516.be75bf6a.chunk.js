@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkquiz_app=self.webpackChunkquiz_app||[]).push([[516],{3516:(s,e,u)=>{u.r(e),u.d(e,{default:()=>r});var a=u(2791),c=u(4420),i=u(7689),o=u(6264),t=u(8859),n=u(184);const r=function(s){let{children:e}=s;const u=(0,c.I0)(),{checkIsDone:r,isError:l,isLoading:d,isSuccess:h,isLogged:f}=(0,c.v9)((s=>s.auth));return(0,a.useLayoutEffect)((()=>{u((0,t._P)())}),[]),d||!r?(0,n.jsx)(o.Z,{className:"h-full"}):l||!f?(0,n.jsx)(i.Fg,{to:"/dashboard/login"}):h&&f?e:void 0}}}]);
+//# sourceMappingURL=516.be75bf6a.chunk.js.map
