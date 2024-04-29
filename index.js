@@ -18,9 +18,13 @@ app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
   next();
 });
+app.use("/test-connection", (_, res) => {
+  console.log(`good`);
+  res.json(`OK`);
+});
 
 app.use("/api", mainApiRoute);
-app.use(`/uploads`,express.static(path.join(__dirname, "uploads")));
+app.use(`/uploads`, express.static(path.join(__dirname, "uploads")));
 // app.get(`/uploads`, (req, res) => {
 //   res.sendFile(path.join(__dirname, "front-build", "index.html"));
 // });
@@ -40,4 +44,4 @@ db.then(() => {
   });
 }).catch((err) => {
   console.log(err);
-})
+});
