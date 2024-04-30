@@ -5,9 +5,7 @@ const path = require("path");
 let result = [];
 // __________________________________________________________________
 try {
-  const fileExcel = xlsx.readFile(
-    path.join(__dirname, "./all_admin_salesforce_questions.xlsx")
-  );
+  const fileExcel = xlsx.readFile(path.join(__dirname, "./developer.xlsx"));
   // const workbookEn = xlsx.readFile("./constans/EN_data_with_answers.xlsx");
 
   // Access Worksheet
@@ -45,10 +43,15 @@ try {
       shortest_wrong_ans.value = result[i];
     }
   });
-  // console.log({
-  //   result_242: result.map((r) => r.wrong_answers.map(e=>e.en))[242],
-  //   result_243: result.map((r) => r.wrong_answers.map(e=>e.en))[243],
-  // });
+  console.log({
+    result_242: result.map((r) => r.wrong_answers.map((e) => e.en))[242],
+    result_243: result.map((r) => r.wrong_answers.map((e) => e.en))[243],
+    result: result.map((ele) => ({
+      val: ele.value?.en,
+      corr: ele.correct_answer?.en,
+      wrong: ele.wrong_answers.length,
+    })),
+  });
   module.exports = result;
 } catch (e) {
   console.log(e);

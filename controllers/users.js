@@ -54,7 +54,7 @@ module.exports = {
           .required("education is required"),
         capatcha: yup.string().required("capatcha is required"),
       });
-      let { email, age, phone, name, experience, education, capatcha } = userFormData;
+      let { email, age, phone, name, experience, education, capatcha, result } = userFormData;
 
       let valid = validationSchema.validateSync({
         email,
@@ -73,7 +73,10 @@ module.exports = {
         throw new Error(`capatcha is not valid`);
       }
 
-      let existingUser = await User.findOne({ $or: [{ email }, { phone }] });
+      let existingUser = await User.findOne({
+        $and: [{ $or: [{ email }, { phone }] }, { "result.levelId": result?.levelId }],
+      });
+
       if (existingUser) {
         return res.status(403).json({ error: "User with the same email or phone already exists" });
       }
